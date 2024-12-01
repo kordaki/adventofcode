@@ -11,7 +11,7 @@ async function readFile() {
   }
 }
 
-const main = async () => {
+const first = async () => {
   const input = await readFile();
   
   let leftSide = [];
@@ -36,4 +36,32 @@ const main = async () => {
   console.log(totalDistance);
 };
 
-main();
+const second = async() => {
+  const input = await readFile();
+
+  let leftSide = [];
+  let rightSide = {};
+
+  // take each line
+  const list = input.split("\n"); // [ '3   4', '4   3', '2   5', '1   3', '3   9', '3   3' ]
+  list.forEach(line => {
+    const numbers = line.split('   ')
+    leftSide.push(+numbers[0]);
+
+    const rightNumber = +numbers[1]
+    if(rightSide[rightNumber]){
+      rightSide[rightNumber]++
+    } else {
+      rightSide[rightNumber] = 1;
+    }
+  })
+
+  let totalDistance = 0;
+  leftSide.forEach(item => {
+    totalDistance += item * (rightSide[item] || 0)
+  })
+
+  console.log(totalDistance);
+}
+
+second();
