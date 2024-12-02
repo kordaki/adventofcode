@@ -11,32 +11,60 @@ async function readFile() {
   }
 }
 
+const checkSequence = (row) => {
+  const isIncreasing = +row[0] < +row[1];
+  for(let i = 1; i < row.length; i++) {
+    const x = +row[i-1];
+    const y = +row[i];
+    let diff = isIncreasing ? (y - x) : (x - y);
+    if( diff < 1 || diff > 3 ) {
+      lineSafe = 0;
+      return false;
+    };
+  }
+  return true
+} 
+
+////////////////////////////
 const first = async () => {
   const input = await readFile();
-  
   const list = input.split("\n"); 
   let safe = 0;
 
   list.forEach(line => {
     const numbers = line.split(' ')
-    let lineSafe = 1;
-    let isIncreasing = +numbers[0] < +numbers[1];
-    for(let i = 0; i < numbers.length - 1; i++) {
-      const x = +numbers[i];
-      const y = +numbers[i + 1];
-      let diff = isIncreasing ? (y - x) : (x - y);
-
-      if( diff < 1 || diff > 3 ) {
-        lineSafe = 0;
-        break;
-      };
-      
-    }
-    safe += lineSafe;    
+    const isSafe = checkSequence(numbers)    
+    safe = isSafe ? safe+1 : safe;    
   })
 
   console.log(safe);
 };
 
 
-first();
+////////////////////////////
+const second = async () => {
+  const input = await readFile();
+  const list = input.split("\n"); 
+  let safe = 0;
+
+  list.forEach(line => {
+    let row = line.split(" ");
+
+    if(checkSequence(row)){
+      safe++
+      return
+    } else {
+      for(let i = 0; i < row.length; i++) {
+        const modifiedArr = [...row]
+        modifiedArr.splice(i, 1)
+        if(checkSequence(modifiedArr)){
+          safe++
+          return
+        }
+      }
+    }
+  })
+  console.log(safe)
+}
+
+second()
