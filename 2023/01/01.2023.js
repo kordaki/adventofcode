@@ -2,7 +2,7 @@ const fs = require("node:fs").promises;
 
 async function readFile() {
   try {
-    const data = await fs.readFile("./01.2024.txt", "utf8");
+    const data = await fs.readFile("./01.2023.txt", "utf8");
     console.log("ok");
     return data;
   } catch (err) {
