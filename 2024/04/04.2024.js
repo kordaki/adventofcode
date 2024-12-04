@@ -75,4 +75,41 @@ const first = async () => {
   console.log(result);
 };
 
-first()
+// first()
+
+////////////////////////////
+
+const second = async () => {
+  const input = await readFile();
+  let result = 0;
+  const data = input.split("\n").map(line => line.split(''));
+
+  const rows = data.length;
+  const columns = data[0].length;
+
+  const checkTopLeft = (i,j) => {
+    if(data[i-1][j-1] === data[i+1][j+1]) return ;
+    if(([M,S].includes(data[i-1][j-1])) && ([M,S].includes(data[i+1][j+1]))) return true
+    return false;
+  };
+  const checkTopRight = (i,j) => {
+    if(data[i-1][j+1] === data[i+1][j-1]) return false;
+    if(([M,S].includes(data[i-1][j+1])) && ([M,S].includes(data[i+1][j-1]))) return true
+    return false
+  };
+  const checkAllDirections = (i,j) => {
+    return checkTopLeft(i,j) && checkTopRight(i,j) ? 1 : 0
+  }
+
+  for(let i = 1; i < rows - 1; i++) {
+    for(let j = 1; j < columns - 1 ; j++) {
+      if(data[i][j] === A) {
+        result += checkAllDirections(i,j)
+      }
+    }
+  }
+
+  console.log(result)
+};
+
+second()
